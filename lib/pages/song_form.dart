@@ -41,9 +41,9 @@ class _SongFormState extends State<SongForm> {
   Widget build(BuildContext context) {
     final Song oldSong = ModalRoute.of(context).settings.arguments;
 
-    var pageTitle = oldSong == null ? "Add song" : "Edit song";
-    var songTitle = oldSong?.title ?? "";
-    var songAuthor = oldSong?.author ?? "";
+    var _pageTitle = oldSong == null ? "Add song" : "Edit song";
+    var _songTitle = oldSong?.title ?? "";
+    var _songAuthor = oldSong?.author ?? "";
 
     return WillPopScope(
       onWillPop: () async {
@@ -66,7 +66,7 @@ class _SongFormState extends State<SongForm> {
               }
             },
           ),
-          title: Text(pageTitle),
+          title: Text(_pageTitle),
         ),
         body: Center(
           child: Container(
@@ -74,20 +74,29 @@ class _SongFormState extends State<SongForm> {
             child: Column(
               children: [
                 TextFormField(
-                  initialValue: songTitle,
+                  initialValue: _songTitle,
                   decoration: InputDecoration(
                     labelText: "Song title",
                   ),
+                  onChanged: (text) => _songTitle = text,
                 ),
                 TextFormField(
-                  initialValue: songAuthor,
+                  initialValue: _songAuthor,
                   decoration: InputDecoration(
                     labelText: "Author",
                   ),
+                  onChanged: (text) => _songAuthor = text,
                 ),
               ],
             ),
           ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.save),
+          onPressed: () {
+            // @Incomplete: Implement returning song to song list, maybe implement database first?
+            Navigator.of(context).pop("Saving: ${Song(title: _songTitle, author: _songAuthor)}");
+          },
         ),
       ),
     );
