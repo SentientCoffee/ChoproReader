@@ -19,7 +19,6 @@ class _SongListPageState extends State<SongListPage> {
   Future<void> _tryEditSong(BuildContext context, Song song) async {
     var returnMsg = await Navigator.pushNamed(context, "/songForm", arguments: song);
     setState(() {
-      // @Borked: this needs to edit the song in the database
       if (returnMsg != null) print(returnMsg);
     });
   }
@@ -29,9 +28,9 @@ class _SongListPageState extends State<SongListPage> {
     if (!ret) return;
 
     setState(() {
-      // @Borked: this needs to delete from the database
-      // widget.songList.remove(song);
       print("Deleting song: $song");
+      // @Borked: need to delete from the list on memory, not just database
+      SongModel.deleteSong(song);
     });
 
     Scaffold.of(context).showSnackBar(

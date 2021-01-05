@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 
 import "package:ChoproReader/pages/main_scaffold.dart";
+import "package:ChoproReader/pages/settings.dart";
 import "package:ChoproReader/pages/song_form.dart";
 
 void main() => runApp(Application());
@@ -18,6 +19,7 @@ class Application extends StatelessWidget {
       home: MainScaffold(title: "ChordPro Songbook"),
       routes: {
         "/songForm": (context) => SongForm(),
+        "/settings": (context) => SettingsPage(),
       },
     );
   }

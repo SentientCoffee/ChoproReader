@@ -16,34 +16,43 @@ class _MainScaffoldState extends State<MainScaffold> {
   int _bottomNavbarIndex = 0;
 
   // @Temporary: implement as database
-  List<Song> songList = [
-    Song(title: "Song 1", artist: "Artist 1"),
-    Song(title: "Song 2", artist: "Artist 2"),
-    Song(title: "Song 3", artist: "Artist 3"),
-    Song(title: "Song 3", artist: "Artist 3"),
-    Song(title: "Song 3", artist: "Artist 3"),
-    Song(title: "Song 3", artist: "Artist 3"),
-    Song(title: "Song 3", artist: "Artist 3"),
-    Song(title: "Song 3", artist: "Artist 3"),
-    Song(title: "Song 3", artist: "Artist 3"),
-    Song(title: "Song 3", artist: "Artist 3"),
-    Song(title: "Song 3", artist: "Artist 3"),
-    Song(title: "Song 3", artist: "Artist 3"),
-    Song(title: "Song 3", artist: "Artist 3"),
-    Song(title: "Song 3", artist: "Artist 3"),
-    Song(title: "Song 3", artist: "Artist 3"),
-    Song(title: "Song 3", artist: "Artist 3"),
-    Song(title: "Song 3", artist: "Artist 3"),
-    Song(title: "Song 3", artist: "Artist 3"),
-    Song(title: "Song 3", artist: "Artist 3"),
-    Song(title: "Song 3", artist: "Artist 3"),
-    Song(title: "Song 3", artist: "Artist 3"),
-    Song(title: "Song 3", artist: "Artist 3"),
-    Song(title: "Song 3", artist: "Artist 3"),
-  ];
+  List<Song> songList = List<Song>();
+  // List<Song> songList = [
+  //   Song(title: "Song 1", artist: "Artist 1"),
+  //   Song(title: "Song 2", artist: "Artist 2"),
+  //   Song(title: "Song 3", artist: "Artist 3"),
+  //   Song(title: "Song 3", artist: "Artist 3"),
+  //   Song(title: "Song 3", artist: "Artist 3"),
+  //   Song(title: "Song 3", artist: "Artist 3"),
+  //   Song(title: "Song 3", artist: "Artist 3"),
+  //   Song(title: "Song 3", artist: "Artist 3"),
+  //   Song(title: "Song 3", artist: "Artist 3"),
+  //   Song(title: "Song 3", artist: "Artist 3"),
+  //   Song(title: "Song 3", artist: "Artist 3"),
+  //   Song(title: "Song 3", artist: "Artist 3"),
+  //   Song(title: "Song 3", artist: "Artist 3"),
+  //   Song(title: "Song 3", artist: "Artist 3"),
+  //   Song(title: "Song 3", artist: "Artist 3"),
+  //   Song(title: "Song 3", artist: "Artist 3"),
+  //   Song(title: "Song 3", artist: "Artist 3"),
+  //   Song(title: "Song 3", artist: "Artist 3"),
+  //   Song(title: "Song 3", artist: "Artist 3"),
+  //   Song(title: "Song 3", artist: "Artist 3"),
+  //   Song(title: "Song 3", artist: "Artist 3"),
+  //   Song(title: "Song 3", artist: "Artist 3"),
+  //   Song(title: "Song 3", artist: "Artist 3"),
+  // ];
+
+  Future<void> updateSongList() async {
+    if (songList.length > 0) songList.clear();
+    songList = await SongModel.getAllSongs();
+    print("songList: $songList");
+  }
 
   @override
   Widget build(BuildContext context) {
+    updateSongList();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -61,10 +70,10 @@ class _MainScaffoldState extends State<MainScaffold> {
             icon: Icon(Icons.settings),
             onPressed: () async {
               // @Incomplete: Add settings page
-              // var returnMsg = await Navigator.pushNamed(context, "/songForm");
-              // setState(() {
-              //   if (returnMsg != null) print(returnMsg);
-              // });
+              var returnMsg = await Navigator.pushNamed(context, "/settings");
+              setState(() {
+                if (returnMsg != null) print(returnMsg);
+              });
             },
           ),
         ],

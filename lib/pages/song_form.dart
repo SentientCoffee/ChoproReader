@@ -95,6 +95,14 @@ class _SongFormState extends State<SongForm> {
           child: Icon(Icons.save),
           onPressed: () {
             // @Incomplete: Implement returning song to song list, maybe implement database first?
+            if(oldSong != null) {
+              oldSong.title = _songTitle;
+              oldSong.artist = _songArtist;
+              SongModel.updateSong(oldSong);
+            }
+            else {
+              SongModel.insertSong(Song(title: _songTitle, artist: _songArtist));
+            }
             Navigator.of(context).pop("Saving: ${Song(title: _songTitle, artist: _songArtist)}");
           },
         ),
