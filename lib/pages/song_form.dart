@@ -1,5 +1,5 @@
-import 'package:ChoproReader/song.dart';
-import 'package:flutter/material.dart';
+import "package:ChoproReader/song.dart";
+import "package:flutter/material.dart";
 
 class SongForm extends StatefulWidget {
   SongForm({Key key}) : super(key: key);
@@ -43,7 +43,7 @@ class _SongFormState extends State<SongForm> {
 
     var _pageTitle = oldSong == null ? "Add song" : "Edit song";
     var _songTitle = oldSong?.title ?? "";
-    var _songAuthor = oldSong?.author ?? "";
+    var _songArtist = oldSong?.artist ?? "";
 
     return WillPopScope(
       onWillPop: () async {
@@ -81,11 +81,11 @@ class _SongFormState extends State<SongForm> {
                   onChanged: (text) => _songTitle = text,
                 ),
                 TextFormField(
-                  initialValue: _songAuthor,
+                  initialValue: _songArtist,
                   decoration: InputDecoration(
-                    labelText: "Author",
+                    labelText: "Artist",
                   ),
-                  onChanged: (text) => _songAuthor = text,
+                  onChanged: (text) => _songArtist = text,
                 ),
               ],
             ),
@@ -95,7 +95,7 @@ class _SongFormState extends State<SongForm> {
           child: Icon(Icons.save),
           onPressed: () {
             // @Incomplete: Implement returning song to song list, maybe implement database first?
-            Navigator.of(context).pop("Saving: ${Song(title: _songTitle, author: _songAuthor)}");
+            Navigator.of(context).pop("Saving: ${Song(title: _songTitle, artist: _songArtist)}");
           },
         ),
       ),

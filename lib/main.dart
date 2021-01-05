@@ -1,7 +1,7 @@
-import 'package:ChoproReader/pages/song_form.dart';
 import "package:flutter/material.dart";
 
-import 'pages/song_list.dart';
+import "package:ChoproReader/pages/main_scaffold.dart";
+import "package:ChoproReader/pages/song_form.dart";
 
 void main() => runApp(Application());
 
@@ -15,7 +15,7 @@ class Application extends StatelessWidget {
         primarySwatch: Colors.red,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: SongSelectPage(title: "Songs"),
+      home: MainScaffold(title: "ChordPro Songbook"),
       routes: {
         "/songForm": (context) => SongForm(),
       },
