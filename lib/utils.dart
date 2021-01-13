@@ -35,4 +35,14 @@ class Utils {
       ),
     );
   }
+
+  static Widget buildSpace({double height = 8.0}) {
+    return Container(
+      height: height,
+      child: FlatButton(
+        child: null,
+        onPressed: null,
+      ),
+    );
+  }
 }

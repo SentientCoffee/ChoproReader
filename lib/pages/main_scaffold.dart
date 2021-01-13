@@ -33,9 +33,13 @@ class _MainScaffoldState extends State<MainScaffold> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     updateSongList();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return SongList(
       songs: songList,
       child: Scaffold(
@@ -54,7 +58,6 @@ class _MainScaffoldState extends State<MainScaffold> {
             IconButton(
               icon: Icon(Icons.settings),
               onPressed: () async {
-                // @Incomplete: Add settings page
                 var returnMsg = await Navigator.pushNamed(context, "/settings");
                 setState(() {
                   if (returnMsg != null) print(returnMsg);
@@ -90,8 +93,8 @@ class _MainScaffoldState extends State<MainScaffold> {
         bottomNavigationBar: BottomNavigationBar(
           elevation: 24.0,
           currentIndex: _bottomNavbarIndex,
-          backgroundColor: Theme.of(context).primaryColor,
-          selectedItemColor: Colors.white,
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          selectedItemColor: Theme.of(context).colorScheme.onPrimary,
           items: [
             BottomNavigationBarItem(
               label: "Songs",

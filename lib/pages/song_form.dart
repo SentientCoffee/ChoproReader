@@ -1,5 +1,7 @@
-import "package:ChoproReader/song.dart";
 import "package:flutter/material.dart";
+
+import "package:ChoproReader/song.dart";
+import "package:ChoproReader/utils.dart";
 
 class SongForm extends StatefulWidget {
   SongForm({Key key}) : super(key: key);
@@ -44,6 +46,8 @@ class _SongFormState extends State<SongForm> {
     var _pageTitle = oldSong == null ? "Add song" : "Edit song";
     var _songTitle = oldSong?.title ?? "";
     var _songArtist = oldSong?.artist ?? "";
+    var _songCategories = oldSong?.categories ?? [];
+    var _newSongCategory = "";
 
     return WillPopScope(
       onWillPop: () async {
@@ -68,27 +72,61 @@ class _SongFormState extends State<SongForm> {
           ),
           title: Text(_pageTitle),
         ),
-        body: Center(
-          child: Container(
-            padding: EdgeInsets.all(20.0),
-            child: Column(
-              children: [
-                TextFormField(
-                  initialValue: _songTitle,
-                  decoration: InputDecoration(
-                    labelText: "Song title",
-                  ),
-                  onChanged: (text) => _songTitle = text,
+        body: Container(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              TextFormField(
+                initialValue: _songTitle,
+                decoration: InputDecoration(
+                  labelText: "Song title",
                 ),
-                TextFormField(
-                  initialValue: _songArtist,
-                  decoration: InputDecoration(
-                    labelText: "Artist",
-                  ),
-                  onChanged: (text) => _songArtist = text,
+                onChanged: (text) => _songTitle = text,
+              ),
+              TextFormField(
+                initialValue: _songArtist,
+                decoration: InputDecoration(
+                  labelText: "Artist",
                 ),
-              ],
-            ),
+                onChanged: (text) => _songArtist = text,
+              ),
+              Utils.buildSpace(height: 30.0),
+              TextFormField(
+                initialValue: _newSongCategory,
+                decoration: InputDecoration(
+                  labelText: "Category",
+                ),
+                onChanged: (text) => _newSongCategory = text,
+              ),
+              // @Incomplete: make sure it scrolls properly
+              Container(
+                height: 200.0,
+                padding: EdgeInsets.all(10.0),
+                child: Scrollable(
+                  viewportBuilder: (context, offset) => ListView.builder(
+                    itemCount: _songCategories.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        padding: EdgeInsets.symmetric(vertical: 4.0),
+                        child: Row(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(right: 12.0),
+                              color: Theme.of(context).colorScheme.primary,
+                              child: Icon(
+                                Icons.check,
+                                color: Theme.of(context).colorScheme.onPrimary,
+                              ),
+                            ),
+                            Text(_songCategories[index]),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              )
+            ],
           ),
         ),
         floatingActionButton: FloatingActionButton(

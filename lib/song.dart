@@ -9,6 +9,8 @@ class Song {
   String artist;
   List<String> categories;
 
+  final String _categorySeparator = "#^#";
+
   Song({
     @required this.title,
     @required this.artist,
@@ -19,14 +21,38 @@ class Song {
     _id = map["id"];
     title = map["title"] ?? "[Title not found]";
     artist = map["artist"] ?? "[Artist not found]";
-    categories = ["Test1", "Test2"];
+
+    String categoryString = map["categories"];
+    if (categoryString == "None") {
+      categories = [];
+    } else {
+      categories = categoryString?.split(_categorySeparator) ?? [];
+      print("extracted categories: $categories");
+    }
   }
 
   Map<String, dynamic> toDatabaseMap() {
+    String categoryString = "";
+
+    if (categories.isNotEmpty) {
+      var index = 0;
+      for (var c in categories) {
+        categoryString += c;
+        if (index < categories.length - 1) categoryString += _categorySeparator;
+
+        index++;
+      }
+    } else {
+      categoryString = "None";
+    }
+
+    print("generated categoryString: $categoryString");
+
     return {
       "id": _id,
       "title": title,
       "artist": artist,
+      "categories": categoryString,
     };
   }
 

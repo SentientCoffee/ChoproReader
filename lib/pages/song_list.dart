@@ -75,12 +75,6 @@ class _SongListPageState extends State<SongListPage> {
     return ret ?? false;
   }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   songList = widget.list;
-  // }
-
   @override
   Widget build(BuildContext context) {
     var list = widget.songList ?? SongList.of(context);
