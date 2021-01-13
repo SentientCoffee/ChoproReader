@@ -3,7 +3,7 @@ import "package:ChoproReader/db_utils.dart";
 import "package:flutter/material.dart";
 
 class Song {
-  int _id = 0;
+  int _id;
   String title;
   String artist;
 
@@ -36,7 +36,8 @@ class SongModel {
   static Future<List<Song>> getAllSongs() async {
     final db = await DBUtils.init();
     final List<Map<String, dynamic>> maps = await db.query("song_list");
-    return maps.map((song) => Song.fromDatabaseMap(song)).toList(growable: false);
+    var list = maps.map((song) => Song.fromDatabaseMap(song)).toList();
+    return list;
   }
 
   static Future<void> insertSong(Song song) async {

@@ -1,13 +1,15 @@
-import "package:ChoproReader/song.dart";
-
 import "package:flutter/material.dart";
 import "package:flutter_slidable/flutter_slidable.dart";
+
+import "package:ChoproReader/song.dart";
+import "package:ChoproReader/pages/main_scaffold.dart";
+import "package:ChoproReader/widgets/inherited_song_list.dart";
 
 class SongListPage extends StatefulWidget {
   final List<Song> songList;
   final bool showArtist;
 
-  SongListPage({this.songList, this.showArtist = true});
+  SongListPage({this.songList = null, this.showArtist = true});
 
   @override
   _SongListPageState createState() => _SongListPageState();
@@ -26,12 +28,10 @@ class _SongListPageState extends State<SongListPage> {
   Future<void> _tryDeleteSongFromList(BuildContext context, Song song) async {
     var ret = await _showDeleteDialog(context, song);
     if (!ret) return;
+    print("Deleting song: $song");
+    SongModel.deleteSong(song);
 
-    setState(() {
-      print("Deleting song: $song");
-      // @Borked: need to delete from the list on memory, not just database
-      SongModel.deleteSong(song);
-    });
+    MainScaffold.of(context).key.currentState.setState(() {});
 
     Scaffold.of(context).showSnackBar(
       SnackBar(
@@ -69,17 +69,26 @@ class _SongListPageState extends State<SongListPage> {
     return ret ?? false;
   }
 
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   songList = widget.list;
+  // }
+
   @override
   Widget build(BuildContext context) {
+    var list = widget.songList ?? SongList.of(context);
+    print(list);
+
     return ListView.separated(
-      itemCount: widget.songList.length + 1,
+      itemCount: list.length + 1,
       itemBuilder: (context, index) {
-        if (index == widget.songList.length) {
+        if (index == list.length) {
           return Center(
             child: Container(
               padding: EdgeInsets.all(10.0),
               child: Text(
-                "${widget.songList.length} song${widget.songList.length != 1 ? "s" : ""}",
+                "${list.length} song${list.length != 1 ? "s" : ""}",
                 style: TextStyle(
                   color: Colors.grey[600],
                 ),
@@ -93,7 +102,7 @@ class _SongListPageState extends State<SongListPage> {
             _tapPosition = details.globalPosition;
           },
           onTap: () {
-            print(widget.songList[index]);
+            print(list[index]);
           },
           onLongPress: () async {
             final RenderBox overlay = Overlay.of(context).context.findRenderObject();
@@ -113,27 +122,27 @@ class _SongListPageState extends State<SongListPage> {
             ).then((value) async {
               switch (value) {
                 case 0:
-                  _tryEditSong(context, widget.songList[index]);
+                  _tryEditSong(context, list[index]);
                   break;
                 case 1:
-                  _tryDeleteSongFromList(context, widget.songList[index]);
+                  _tryDeleteSongFromList(context, list[index]);
                   break;
               }
             });
           },
           child: Slidable(
             actionPane: SlidableDrawerActionPane(),
-            child: SongWidget(song: widget.songList[index], showArtist: widget.showArtist),
+            child: SongWidget(song: list[index], showArtist: widget.showArtist),
             secondaryActions: [
               IconSlideAction(
                 icon: Icons.delete,
                 color: Colors.red,
-                onTap: () => _tryDeleteSongFromList(context, widget.songList[index]),
+                onTap: () => _tryDeleteSongFromList(context, list[index]),
               ),
               IconSlideAction(
                 icon: Icons.edit,
                 color: Colors.blue,
-                onTap: () => _tryEditSong(context, widget.songList[index]),
+                onTap: () => _tryEditSong(context, list[index]),
               ),
             ],
           ),

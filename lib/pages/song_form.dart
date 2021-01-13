@@ -94,14 +94,12 @@ class _SongFormState extends State<SongForm> {
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.save),
           onPressed: () {
-            // @Incomplete: Implement returning song to song list, maybe implement database first?
-            if(oldSong != null) {
+            if (oldSong == null) {
+              SongModel.insertSong(Song(title: _songTitle, artist: _songArtist));
+            } else {
               oldSong.title = _songTitle;
               oldSong.artist = _songArtist;
               SongModel.updateSong(oldSong);
-            }
-            else {
-              SongModel.insertSong(Song(title: _songTitle, artist: _songArtist));
             }
             Navigator.of(context).pop("Saving: ${Song(title: _songTitle, artist: _songArtist)}");
           },
