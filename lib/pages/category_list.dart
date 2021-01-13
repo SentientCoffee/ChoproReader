@@ -2,33 +2,35 @@ import "package:ChoproReader/song.dart";
 import "package:ChoproReader/pages/song_submenu_scaffold.dart";
 import "package:flutter/material.dart";
 
-class ArtistListPage extends StatefulWidget {
+class CategoryListPage extends StatefulWidget {
   final List<Song> songList;
 
-  ArtistListPage({@required this.songList});
+  CategoryListPage({@required this.songList});
 
   @override
-  _ArtistListPageState createState() => _ArtistListPageState();
+  _CategoryListPageState createState() => _CategoryListPageState();
 }
 
-class _ArtistListPageState extends State<ArtistListPage> {
+class _CategoryListPageState extends State<CategoryListPage> {
   @override
   Widget build(BuildContext context) {
-    List<String> artistList = [];
+    List<String> categoryList = [];
     for (var song in widget.songList) {
-      if (artistList.contains(song.artist)) continue;
-      artistList.add(song.artist);
+      for (var category in song.categories) {
+        if (categoryList.contains(category)) continue;
+        categoryList.add(category);
+      }
     }
 
     return ListView.separated(
-      itemCount: artistList.length + 1,
+      itemCount: categoryList.length + 1,
       itemBuilder: (context, index) {
-        if (index == artistList.length) {
+        if (index == categoryList.length) {
           return Center(
             child: Container(
               padding: EdgeInsets.all(10.0),
               child: Text(
-                "${artistList.length} artists",
+                "${categoryList.length} categories",
                 style: TextStyle(
                   color: Colors.grey[600],
                 ),
@@ -39,9 +41,11 @@ class _ArtistListPageState extends State<ArtistListPage> {
 
         return GestureDetector(
           onTap: () async {
+            print(widget.songList);
+
             List<Song> list = [];
             for (var song in widget.songList) {
-              if (song.artist != artistList[index]) continue;
+              if (!song.categories.contains(categoryList[index])) continue;
               list.add(song);
             }
 
@@ -49,15 +53,15 @@ class _ArtistListPageState extends State<ArtistListPage> {
               context,
               MaterialPageRoute(
                 builder: (context) => SongSubmenuScaffold(
-                  title: "Artist: ${artistList[index]}",
+                  title: "Category: ${categoryList[index]}",
                   songList: list,
-                  showArtist: false,
+                  showCategories: false,
                 ),
               ),
             );
             if (returnMsg != null) print(returnMsg);
           },
-          child: ListTile(title: Text(artistList[index])),
+          child: ListTile(title: Text(categoryList[index])),
         );
       },
       separatorBuilder: (context, index) => Container(

@@ -4,12 +4,18 @@ import "package:flutter_slidable/flutter_slidable.dart";
 import "package:ChoproReader/song.dart";
 import "package:ChoproReader/pages/main_scaffold.dart";
 import "package:ChoproReader/widgets/inherited_song_list.dart";
+import "package:ChoproReader/widgets/song_widget.dart";
 
 class SongListPage extends StatefulWidget {
   final List<Song> songList;
   final bool showArtist;
+  final bool showCategories;
 
-  SongListPage({this.songList = null, this.showArtist = true});
+  SongListPage({
+    this.songList = null,
+    this.showArtist = true,
+    this.showCategories = true,
+  });
 
   @override
   _SongListPageState createState() => _SongListPageState();
@@ -78,7 +84,6 @@ class _SongListPageState extends State<SongListPage> {
   @override
   Widget build(BuildContext context) {
     var list = widget.songList ?? SongList.of(context);
-    print(list);
 
     return ListView.separated(
       itemCount: list.length + 1,
@@ -132,7 +137,11 @@ class _SongListPageState extends State<SongListPage> {
           },
           child: Slidable(
             actionPane: SlidableDrawerActionPane(),
-            child: SongWidget(song: list[index], showArtist: widget.showArtist),
+            child: SongWidget(
+              song: list[index],
+              showArtist: widget.showArtist,
+              showCategories: widget.showCategories,
+            ),
             secondaryActions: [
               IconSlideAction(
                 icon: Icons.delete,

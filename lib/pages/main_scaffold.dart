@@ -4,6 +4,7 @@ import "package:ChoproReader/song.dart";
 import "package:ChoproReader/utils.dart";
 
 import "package:ChoproReader/pages/artist_list.dart";
+import "package:ChoproReader/pages/category_list.dart";
 import "package:ChoproReader/pages/song_list.dart";
 
 import "package:ChoproReader/widgets/inherited_song_list.dart";
@@ -28,7 +29,6 @@ class _MainScaffoldState extends State<MainScaffold> {
     var list = await SongModel.getAllSongs();
     songList.clear();
     songList = list;
-    print("songList: $list");
     return list;
   }
 
@@ -80,6 +80,8 @@ class _MainScaffoldState extends State<MainScaffold> {
                 return SongListPage(songList: snapshot.data);
               case 1:
                 return ArtistListPage(songList: snapshot.data);
+              case 2:
+                return CategoryListPage(songList: snapshot.data);
             }
 
             return Utils.buildErrorPage(widget.toString(), "build", "This tab is not supported yet!");
@@ -98,6 +100,10 @@ class _MainScaffoldState extends State<MainScaffold> {
             BottomNavigationBarItem(
               label: "Artists",
               icon: Icon(Icons.mic_external_on),
+            ),
+            BottomNavigationBarItem(
+              label: "Categories",
+              icon: Icon(Icons.view_list_rounded),
             ),
           ],
           onTap: (index) {

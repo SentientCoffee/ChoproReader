@@ -1,21 +1,25 @@
-import "package:sqflite/sqflite.dart";
-import "package:ChoproReader/db_utils.dart";
 import "package:flutter/material.dart";
+import "package:sqflite/sqflite.dart";
+
+import "package:ChoproReader/db_utils.dart";
 
 class Song {
   int _id;
   String title;
   String artist;
+  List<String> categories;
 
   Song({
     @required this.title,
     @required this.artist,
+    this.categories = const [],
   });
 
   Song.fromDatabaseMap(Map<String, dynamic> map) {
     _id = map["id"];
     title = map["title"] ?? "[Title not found]";
     artist = map["artist"] ?? "[Artist not found]";
+    categories = ["Test1", "Test2"];
   }
 
   Map<String, dynamic> toDatabaseMap() {
@@ -28,7 +32,7 @@ class Song {
 
   @override
   String toString() {
-    return "Song { title: $title, artist: $artist }";
+    return "Song { title: $title, artist: $artist, categories: $categories }";
   }
 }
 
@@ -67,24 +71,6 @@ class SongModel {
       "song_list",
       where: "id = ?",
       whereArgs: [song._id],
-    );
-  }
-}
-
-class SongWidget extends StatelessWidget {
-  final Song song;
-  final bool showArtist;
-
-  SongWidget({
-    this.song,
-    this.showArtist = true,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(song.title),
-      subtitle: showArtist ? Text(song.artist) : null,
     );
   }
 }
