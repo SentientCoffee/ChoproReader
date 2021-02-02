@@ -49,7 +49,7 @@ class _MainScaffoldState extends State<MainScaffold> {
             IconButton(
               icon: Icon(Icons.add),
               onPressed: () async {
-                var returnMsg = await Navigator.pushNamed(context, "/songForm");
+                var returnMsg = await Navigator.pushNamed(context, "/songForm", arguments: null);
                 setState(() {
                   if (returnMsg != null) print(returnMsg);
                 });
