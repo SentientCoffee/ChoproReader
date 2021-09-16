@@ -1,11 +1,10 @@
+import "package:flutter/material.dart";
 import "package:ChoproReader/song.dart";
 import "package:ChoproReader/pages/song_submenu_scaffold.dart";
-import "package:flutter/material.dart";
+import "package:ChoproReader/widgets/song_list.dart";
 
 class CategoryListPage extends StatefulWidget {
-  final List<Song> songList;
-
-  CategoryListPage({@required this.songList});
+  CategoryListPage();
 
   @override
   _CategoryListPageState createState() => _CategoryListPageState();
@@ -14,8 +13,10 @@ class CategoryListPage extends StatefulWidget {
 class _CategoryListPageState extends State<CategoryListPage> {
   @override
   Widget build(BuildContext context) {
+    List<Song> songList = SongList.of(context).songList;
     List<String> categoryList = [];
-    for (var song in widget.songList) {
+
+    for (var song in songList) {
       for (var category in song.categories) {
         if (categoryList.contains(category)) continue;
         categoryList.add(category);
@@ -41,10 +42,8 @@ class _CategoryListPageState extends State<CategoryListPage> {
 
         return GestureDetector(
           onTap: () async {
-            print(widget.songList);
-
             List<Song> list = [];
-            for (var song in widget.songList) {
+            for (var song in songList) {
               if (!song.categories.contains(categoryList[index])) continue;
               list.add(song);
             }

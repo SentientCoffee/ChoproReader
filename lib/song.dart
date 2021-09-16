@@ -27,7 +27,6 @@ class Song {
       categories = [];
     } else {
       categories = categoryString?.split(_categorySeparator) ?? [];
-      print("extracted categories: $categories");
     }
   }
 
@@ -45,8 +44,6 @@ class Song {
     } else {
       categoryString = "None";
     }
-
-    print("generated categoryString: $categoryString");
 
     return {
       "id": _id,

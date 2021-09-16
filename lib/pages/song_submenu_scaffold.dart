@@ -1,8 +1,9 @@
-import "package:ChoproReader/pages/song_list.dart";
-import "package:ChoproReader/song.dart";
 import "package:flutter/material.dart";
 
-class SongSubmenuScaffold extends StatefulWidget {
+import "package:ChoproReader/song.dart";
+import "package:ChoproReader/pages/song_list_page.dart";
+
+class SongSubmenuScaffold extends StatelessWidget {
   final String title;
   final List<Song> songList;
   final bool showArtist;
@@ -16,20 +17,15 @@ class SongSubmenuScaffold extends StatefulWidget {
   });
 
   @override
-  _SongSubmenuScaffoldState createState() => _SongSubmenuScaffoldState();
-}
-
-class _SongSubmenuScaffoldState extends State<SongSubmenuScaffold> {
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(title),
       ),
       body: SongListPage(
-        songList: widget.songList,
-        showArtist: widget.showArtist,
-        showCategories: widget.showCategories,
+        songList: songList,
+        showArtist: showArtist,
+        showCategories: showCategories,
       ),
     );
   }

@@ -127,9 +127,15 @@ class _SongFormState extends State<SongForm> {
                   ),
                 ],
               ),
-              // @Incomplete: make sure it scrolls properly
               Expanded(
                 child: Container(
+                  margin: EdgeInsets.only(top: 10.0),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black,
+                      style: BorderStyle.solid,
+                    ),
+                  ),
                   padding: EdgeInsets.all(10.0),
                   child: Scrollable(
                     viewportBuilder: (context, offset) => ListView.builder(
@@ -139,12 +145,16 @@ class _SongFormState extends State<SongForm> {
                           padding: EdgeInsets.symmetric(vertical: 4.0),
                           child: Row(
                             children: [
-                              Container(
-                                margin: EdgeInsets.only(right: 12.0),
-                                color: Theme.of(context).colorScheme.primary,
-                                child: Icon(
-                                  Icons.check,
-                                  color: Theme.of(context).colorScheme.onPrimary,
+                              GestureDetector(
+                                // @Incomplete: add functionality for removing categories
+                                onTap: () {},
+                                child: Container(
+                                  margin: EdgeInsets.only(right: 12.0),
+                                  color: Theme.of(context).colorScheme.primary,
+                                  child: Icon(
+                                    Icons.check,
+                                    color: Theme.of(context).colorScheme.onPrimary,
+                                  ),
                                 ),
                               ),
                               Text(_songCategories[index]),
@@ -170,7 +180,7 @@ class _SongFormState extends State<SongForm> {
               widget.oldSong.categories = _songCategories;
               SongModel.updateSong(widget.oldSong);
             }
-            Navigator.of(context).pop("Saving: ${Song(title: _songTitle, artist: _songArtist)}");
+            Navigator.of(context).pop("Saving: ${Song(title: _songTitle, artist: _songArtist, categories: _songCategories)}");
           },
         ),
       ),

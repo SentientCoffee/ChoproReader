@@ -3,7 +3,7 @@ import "package:flutter_slidable/flutter_slidable.dart";
 
 import "package:ChoproReader/song.dart";
 import "package:ChoproReader/pages/main_scaffold.dart";
-import "package:ChoproReader/widgets/inherited_song_list.dart";
+import "package:ChoproReader/widgets/song_list.dart";
 import "package:ChoproReader/widgets/song_widget.dart";
 
 class SongListPage extends StatefulWidget {
@@ -12,7 +12,7 @@ class SongListPage extends StatefulWidget {
   final bool showCategories;
 
   SongListPage({
-    this.songList = null,
+    @required this.songList,
     this.showArtist = true,
     this.showCategories = true,
   });
@@ -77,7 +77,7 @@ class _SongListPageState extends State<SongListPage> {
 
   @override
   Widget build(BuildContext context) {
-    var list = widget.songList ?? SongList.of(context);
+    var list = widget.songList ?? SongList.of(context).songList;
 
     return ListView.separated(
       itemCount: list.length + 1,

@@ -4,6 +4,7 @@ import "package:ChoproReader/song.dart";
 import "package:ChoproReader/pages/main_scaffold.dart";
 import "package:ChoproReader/pages/settings.dart";
 import "package:ChoproReader/pages/song_form.dart";
+import "package:ChoproReader/widgets/song_list.dart";
 
 void main() => runApp(Application());
 
@@ -17,7 +18,7 @@ class Application extends StatelessWidget {
         primarySwatch: Colors.red,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MainScaffold(title: "ChordPro Songbook"),
+      home: SongList(child: MainScaffold(title: "ChordPro Songbook")),
       routes: {
         "/songForm": (context) => SongForm(oldSong: ModalRoute.of(context).settings.arguments as Song),
         "/settings": (context) => SettingsPage(),
